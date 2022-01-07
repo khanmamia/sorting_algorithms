@@ -11,7 +11,7 @@ void bubble_sort(int *array, size_t size)
 	size_t i, size_h;
 	int current, next, swap;
 
-	if (array == NULL || size == 0)
+	if (array == NULL || size <= 2)
 		return;
 
 	size_h = size;
@@ -21,16 +21,17 @@ void bubble_sort(int *array, size_t size)
 	{
 		current = array[i];
 		next = array[i + 1];
-		if (array[i] > array[i + 1])
+		if (current > next)
 		{
 			array[i] = next;
 			array[i + 1] = current;
 			swap = 1;
 			print_array(array, size_h);
 		}
-
+		/* if we've reached the end and something was swapped*/
 		if (++i == size - 1 && swap == 1)
 		{
+			/*Restart the loop*/
 			i = 0;
 			swap = 0;
 			--size;
