@@ -1,5 +1,6 @@
 #include "sort.h"
 
+void swap(listint_t **, listint_t **, listint_t **);
 /**
   * insertion_sort_list - uses insertion sort to sort a dll
   * @list: the list to be sorted
