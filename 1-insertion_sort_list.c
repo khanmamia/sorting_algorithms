@@ -1,36 +1,50 @@
 #include "sort.h"
 
 /**
- * insertion_sort_list - sorts a doubly linked list of integers in ascending
- * order using the Insertion sort algorithm
- * @list: Double pointer to the head of the linked list
+ * insertion_sort_list - inserts right unsorted side into left sorted side
+ * @list: doubly linked list to sort
  *
- * Return: void
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *swap_node, *next_swap;
+	listint_t *c, *p, *nextnode;
 
-	if (list == NULL || *list == NULL)
+	if (list == NULL || !(*list) || (*list)->next == NULL)
 		return;
-	swap_node = (*list)->next;
-	while (swap_node != NULL)
+	c = (*list)->next;
+	nextnode = c->next;
+	while (c)
 	{
-		next_swap = swap_node->next;
-		while (swap_node->prev != NULL && swap_node->prev->n > swap_node->n)
+		if (c->n < c->prev->n)
 		{
-			swap_node->prev->next = swap_node->next;
-			if (swap_node->next != NULL)
-				swap_node->next->prev = swap_node->prev;
-			swap_node->next = swap_node->prev;
-			swap_node->prev = swap_node->next->prev;
-			swap_node->next->prev = swap_node;
-			if (swap_node->prev == NULL)
-				*list = swap_node;
-			else
-				swap_node->prev->next = swap_node;
-			print_list(*list);
+			p = c->prev;
+			while (p && (c->n < p->n))
+			{
+				if (!(p->prev))
+				{
+					p->prev = c;
+					c->prev->next = c->next;
+					if (c->next)
+						c->next->prev = c->prev;
+					c->next = p;
+					c->prev = NULL;
+					*list = c;
+				}
+				else
+				{
+					c->prev->next = c->next;
+					if (c->next)
+						c->next->prev = c->prev;
+					p->prev->next = c;
+					c->prev = p->prev;
+					p->prev = c;
+					c->next = p;
+				}
+				print_list(*list);
+				p = c->prev;
+			}
 		}
-		swap_node = next_swap;
+		c = nextnode;
+		c ? (nextnode = c->next) : (nextnode = NULL);
 	}
 }
